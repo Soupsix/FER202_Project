@@ -1,0 +1,96 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "user@gmail.com",
+      "password": "123456",
+      "role": "customer"
+    },
+    {
+      "id": 2,
+      "email": "admin@gmail.com",
+      "password": "123456",
+      "role": "customer"
+    }
+  ],
+
+  "categories": [
+    { "id": 1, "name": "Len" },
+    { "id": 2, "name": "Hoa bó" },
+    { "id": 3, "name": "Móc" },
+    { "id": 4, "name": "Quà tặng" },
+    { "id": 5, "name": "Trang trí" }
+  ],
+
+  "products": [
+  {
+    "id": 1,
+    "name": "Len Cotton Pastel",
+    "price": 50000,
+    "categoryId": 1,
+    "image": "https://picsum.photos/seed/len1/400/400",
+    "description": "Len cotton mềm, màu pastel"
+  },
+  {
+    "id": 2,
+    "name": "Hoa len tulip",
+    "price": 120000,
+    "categoryId": 2,
+    "image": "https://picsum.photos/seed/hoa1/400/400",
+    "description": "Hoa bó handmade từ len tặng các bún bò huế thì ngon luôn!"
+  },
+  {
+    "id": 3,
+    "name": "Hoa len Hồng",
+    "price": 90000,
+    "categoryId": 2,
+    "image": "https://picsum.photos/seed/hoa2/400/400",
+    "description": "Hoa bó handmade từ len siêu đẹp phù hợp tặng người iuu"
+  },
+  {
+    "id": 4,
+    "name": "Hoa cẩm tú cầu",
+    "price": 300000,
+    "categoryId": 2,
+    "image": "https://picsum.photos/seed/hoa3/400/400",
+    "description": "Hoa cẩm tú cầu đan tay đẳng sì cấp đã tặng Trần Hà Linh"
+  },
+  {
+    "id": 5,
+    "name": "Len màu goá phụ đen",
+    "price": 70000,
+    "categoryId": 1,
+    "image": "https://picsum.photos/seed/len2/400/400",
+    "description": "Len cotton mềm, màu già tuổi"
+  }
+]
+,
+
+  "cart": [
+    {
+      "id": 1,
+      "userId": 1,
+      "productId": 1,
+      "quantity": 2
+    }
+  ],
+
+  "orders": [
+    {
+      "id": 1,
+      "userId": 1,
+      "total": 100000,
+      "createdAt": "2026-01-25"
+    }
+  ],
+
+  "order_items": [
+    {
+      "id": 1,
+      "orderId": 1,
+      "productName": "Len Cotton Pastel",
+      "price": 50000,
+      "quantity": 2
+    }
+  ]
+}

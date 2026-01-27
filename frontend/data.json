@@ -4,68 +4,154 @@
       "id": 1,
       "email": "user@gmail.com",
       "password": "123456",
-      "role": "customer"
+      "role": "customer",
+      "name": "Nguyễn Văn A",
+      "phone_number": "0901234567",
+      "age": 25,
+      "address": "123 Đường ABC, Quận 1, TP.HCM"
     },
     {
       "id": 2,
       "email": "admin@gmail.com",
       "password": "123456",
-      "role": "customer"
+      "role": "admin",
+      "name": "Trần Thị B",
+      "phone_number": "0912345678",
+      "age": 30,
+      "address": "456 Đường XYZ, Quận 2, TP.HCM"
+    },
+    {
+      "id": 3,
+      "email": "admin2@gmail.com",
+      "password": "123456",
+      "role": "admin",
+      "name": "Lê Văn C",
+      "phone_number": "0923456789",
+      "age": 28,
+      "address": "789 Đường DEF, Quận 3, TP.HCM"
+    },
+    {
+      "id": 4,
+      "email": "customer@gmail.com",
+      "password": "123456",
+      "role": "customer",
+      "name": "Phạm Thị D",
+      "phone_number": "0934567890",
+      "age": 22,
+      "address": "321 Đường GHI, Quận 5, TP.HCM"
     }
   ],
-
   "categories": [
-    { "id": 1, "name": "Len" },
-    { "id": 2, "name": "Hoa bó" },
-    { "id": 3, "name": "Móc" },
-    { "id": 4, "name": "Quà tặng" },
-    { "id": 5, "name": "Trang trí" }
+    {
+      "id": 1,
+      "name": "Len"
+    },
+    {
+      "id": 2,
+      "name": "Hoa bó"
+    },
+    {
+      "id": 3,
+      "name": "Móc"
+    },
+    {
+      "id": 4,
+      "name": "Quà tặng"
+    },
+    {
+      "id": 5,
+      "name": "Trang trí"
+    }
   ],
-
+  "brands": [
+    {
+      "id": 1,
+      "name": "Handmade Việt",
+      "status": true
+    },
+    {
+      "id": 2,
+      "name": "Len Craft Pro",
+      "status": true
+    },
+    {
+      "id": 3,
+      "name": "Flower Garden",
+      "status": true
+    },
+    {
+      "id": 4,
+      "name": "Premium Cotton",
+      "status": false
+    },
+    {
+      "id": 5,
+      "name": "Artisan Studio",
+      "status": true
+    },
+    {
+      "id": 6,
+      "name": "WoolGood Handmade",
+      "status": true
+    }
+  ],
   "products": [
-  {
-    "id": 1,
-    "name": "Len Cotton Pastel",
-    "price": 50000,
-    "categoryId": 1,
-    "image": "https://picsum.photos/seed/len1/400/400",
-    "description": "Len cotton mềm, màu pastel"
-  },
-  {
-    "id": 2,
-    "name": "Hoa len tulip",
-    "price": 120000,
-    "categoryId": 2,
-    "image": "https://picsum.photos/seed/hoa1/400/400",
-    "description": "Hoa bó handmade từ len tặng các bún bò huế thì ngon luôn!"
-  },
-  {
-    "id": 3,
-    "name": "Hoa len Hồng",
-    "price": 90000,
-    "categoryId": 2,
-    "image": "https://picsum.photos/seed/hoa2/400/400",
-    "description": "Hoa bó handmade từ len siêu đẹp phù hợp tặng người iuu"
-  },
-  {
-    "id": 4,
-    "name": "Hoa cẩm tú cầu",
-    "price": 300000,
-    "categoryId": 2,
-    "image": "https://picsum.photos/seed/hoa3/400/400",
-    "description": "Hoa cẩm tú cầu đan tay đẳng sì cấp đã tặng Trần Hà Linh"
-  },
-  {
-    "id": 5,
-    "name": "Len màu goá phụ đen",
-    "price": 70000,
-    "categoryId": 1,
-    "image": "https://picsum.photos/seed/len2/400/400",
-    "description": "Len cotton mềm, màu già tuổi"
-  }
-]
-,
-
+    {
+      "id": 1,
+      "name": "Len Cotton Pastel",
+      "image": "https://picsum.photos/seed/len1/400/400",
+      "description": "Len cotton mềm, màu pastel",
+      "categoryId": 1,
+      "brandId": 2,
+      "price": 50000,
+      "quantity": 150,
+      "status": true
+    },
+    {
+      "id": 2,
+      "name": "Hoa len tulip",
+      "image": "https://picsum.photos/seed/hoa1/400/400",
+      "description": "Hoa bó handmade từ len tặng các bún bò huế thì ngon luôn!",
+      "categoryId": 2,
+      "brandId": 3,
+      "price": 120000,
+      "quantity": 50,
+      "status": true
+    },
+    {
+      "id": 3,
+      "name": "Hoa len Hồng",
+      "image": "https://picsum.photos/seed/hoa2/400/400",
+      "description": "Hoa bó handmade từ len siêu đẹp phù hợp tặng người iuu",
+      "categoryId": 2,
+      "brandId": 1,
+      "price": 90000,
+      "quantity": 75,
+      "status": true
+    },
+    {
+      "id": 4,
+      "name": "Hoa cẩm tú cầu",
+      "image": "https://picsum.photos/seed/hoa3/400/400",
+      "description": "Hoa cẩm tú cầu đan tay đẳng sì cấp đã tặng Trần Hà Linh",
+      "categoryId": 2,
+      "brandId": 5,
+      "price": 300000,
+      "quantity": 20,
+      "status": true
+    },
+    {
+      "id": 5,
+      "name": "Len màu goá phụ đen",
+      "image": "https://picsum.photos/seed/len2/400/400",
+      "description": "Len cotton mềm, màu già tuổi",
+      "categoryId": 1,
+      "brandId": 2,
+      "price": 70000,
+      "quantity": 0,
+      "status": false
+    }
+  ],
   "cart": [
     {
       "id": 1,
@@ -74,7 +160,6 @@
       "quantity": 2
     }
   ],
-
   "orders": [
     {
       "id": 1,
@@ -83,7 +168,6 @@
       "createdAt": "2026-01-25"
     }
   ],
-
   "order_items": [
     {
       "id": 1,

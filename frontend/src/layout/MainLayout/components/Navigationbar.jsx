@@ -22,9 +22,9 @@ const Navigationbar = () => {
                 <NavDropdown.Item href="">Something</NavDropdown.Item>
                 <NavDropdown.Item href="">Separated link</NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link href="#link">Giới Thiệu</Nav.Link>
-              <Nav.Link href="#link">Tin Tức</Nav.Link> 
-              <Nav.Link href="#link">Liên hệ</Nav.Link>
+              <Nav.Link href="#about">Giới Thiệu</Nav.Link>
+              <Nav.Link href="#blog">Tin Tức</Nav.Link> 
+              <Nav.Link href="#contact">Liên hệ</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

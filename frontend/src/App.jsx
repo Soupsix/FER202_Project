@@ -10,6 +10,7 @@ import Order from "./pages/Order/Order";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Profile from "./pages/Profile/Profile"
 
 function App() {
 
@@ -21,6 +22,15 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<Product />} />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/cart"

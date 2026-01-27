@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Routes, Route } from "react-router-dom";
-import MainLayout from "./layouts/MainLayout/MainLayout";
-import AuthLayout from "./layouts/AuthLayout/AuthLayout";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainLayout from "./layout/MainLayout/MainLayout";
+import AuthLayout from "./layout/AuthLayout/AuthLayout";
 
 import HomePage from './pages/Home/HomePage'
 import Product from "./pages/Products/Product";
@@ -15,38 +15,40 @@ function App() {
 
 
   return (
-    <Routes>
-      {/* Layout chính */}
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/products" element={<Product />} />
+    <BrowserRouter>
+      <Routes>
+        {/* Layout chính */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<Product />} />
 
-        <Route
-          path="/cart"
-          element={
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/orders"
-          element={
-            <ProtectedRoute>
-              <Order />
-            </ProtectedRoute>
-          }
-        />
-      </Route>
+          <Route
+            path="/orders"
+            element={
+              <ProtectedRoute>
+                <Order />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
 
-      {/* Auth layout */}
-      <Route element={<AuthLayout />}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Route>
+        {/* Auth layout */}
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
 
-    </Routes>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

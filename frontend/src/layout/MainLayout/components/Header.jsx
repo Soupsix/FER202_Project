@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Input, Badge, Avatar, Space, Dropdown } from "antd";
+import { Row, Col, Input, Badge, Avatar, Space, Dropdown, Button } from "antd";
 
 import {
     HeartOutlined,
@@ -9,35 +9,46 @@ import {
     ProfileOutlined,
     ShoppingOutlined
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { logout } from "../../../redux/slices/authSlice";
+import { toast } from 'sonner';
+import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
 const Header = () => {
-
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { isAuthenticated } = useSelector((state) => state.auth);
+
 
     const items = [
-    {
-        key: "profile",
-        icon: <ProfileOutlined />,
-        label: "Thông tin cá nhân",
-        onClick: () => navigate("/profile"),
-    },
-    {
-        key:"order",
-        icon: <ShoppingOutlined />,
-        label: "Đơn hàng đã mua"
-    }
-    ,
-    {
-        key: "logout",
-        icon: <LogoutOutlined />,
-        label: "Đăng xuất",
-        danger: true,
-    }
-];
+        {
+            key: "profile",
+            icon: <ProfileOutlined />,
+            label: "Thông tin cá nhân",
+            onClick: () => navigate("/profile"),
+        },
+        {
+            key: "order",
+            icon: <ShoppingOutlined />,
+            label: "Đơn hàng đã mua",
+            onClick: () => navigate("/orders"),
+        }
+        ,
+        {
+            key: "logout",
+            icon: <LogoutOutlined />,
+            label: "Đăng xuất",
+            danger: true,
+            onClick: () => {
+                dispatch(logout());
+                toast.success("Đăng xuất thành công");
+            },
+        }
+    ];
 
 
     return (
@@ -64,6 +75,7 @@ const Header = () => {
                             fontWeight: 800,
                             cursor: "pointer",
                         }}
+                        onClick={() => navigate("/")}
                     >
                         WoolGood
                     </div>
@@ -90,17 +102,34 @@ const Header = () => {
                             <ShoppingCartOutlined style={{ fontSize: 20, cursor: "pointer" }} />
                         </Badge>
 
-                        <Dropdown
-                            menu={{ items }}
-                            trigger={["click"]}
-                            placement="bottomRight"
-                        >
-                            <Space style={{ cursor: "pointer" }}>
-                                <Avatar
-                                icon={<UserOutlined />}
-                            />
+                        {isAuthenticated ? (
+                            <Dropdown
+                                menu={{ items }}
+                                trigger={["click"]}
+                                placement="bottomRight"
+                            >
+                                <Space style={{ cursor: "pointer" }}>
+                                    <Avatar
+                                        icon={<UserOutlined />}
+                                    />
+                                </Space>
+                            </Dropdown>
+                        ) : (
+                            <Space>
+                                <Button
+                                    type="dashed"
+                                    onClick={() => navigate("/login")}
+                                >
+                                    Đăng nhập
+                                </Button>
+                                <Button
+                                    type="default"
+                                    onClick={() => navigate("/register")}
+                                >
+                                    Đăng ký
+                                </Button>
                             </Space>
-                        </Dropdown>
+                        )}
                     </Space>
                 </Col>
             </Row>

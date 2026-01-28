@@ -1,13 +1,14 @@
 import { Navigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();
 
-  // check login đơn giản
-  const user = localStorage.getItem("user");
+  // Lấy trạng thái authentication từ Redux store
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
-  if (!user) {
-    // chưa login → đá về login
+  if (!isAuthenticated) {
+    // Chưa login → redirect về /login
     return (
       <Navigate
         to="/login"
@@ -17,7 +18,7 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  // đã login → cho đi tiếp
+  // Đã login → render children
   return children;
 };
 

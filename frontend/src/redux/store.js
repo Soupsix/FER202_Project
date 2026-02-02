@@ -1,13 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slices/authSlice';
+import categoryReducer from './slices/categorySlice';
 
 const store = configureStore({
     reducer: {
         auth: authReducer,
-        // Có thể thêm các reducer khác
-        // cart: cartReducer,
-        // product: productReducer,
-        // order: orderReducer,
+        category: categoryReducer,
+
     },
 });
 

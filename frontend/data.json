@@ -44,23 +44,28 @@
   "categories": [
     {
       "id": 1,
-      "name": "Len"
+      "name": "Len",
+      "description": "Len cotton mềm, màu pastel"
     },
     {
       "id": 2,
-      "name": "Hoa bó"
+      "name": "Hoa bó",
+      "description": "Hoa bó handmade từ len tặng các bún bò huế thì ngon luôn!"
     },
     {
       "id": 3,
-      "name": "Móc"
+      "name": "Móc",
+      "description": "Móc len thủ công tinh xảo"
     },
     {
       "id": 4,
-      "name": "Quà tặng"
+      "name": "Quà tặng",
+      "description": "Quà tặng độc đáo từ len"
     },
     {
       "id": 5,
-      "name": "Trang trí"
+      "name": "Trang trí",
+      "description": "Đồ trang trí nhà cửa từ len"
     }
   ],
   "brands": [

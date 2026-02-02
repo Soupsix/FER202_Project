@@ -3,8 +3,12 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { useNavigate } from 'react-router-dom';
 
 const Navigationbar = () => {
+
+  const navigate = useNavigate();
+
   return (
     <>
       <Navbar className="bg-body-tertiary" >
@@ -15,16 +19,17 @@ const Navigationbar = () => {
             className="justify-content-center"
           >
             <Nav className="fw-bold">
-              <Nav.Link href="#home">Trang chủ</Nav.Link>
-               <NavDropdown title="Sản Phẩm" id="basic-nav-dropdown">
-                <NavDropdown.Item href="">Action</NavDropdown.Item>
-                <NavDropdown.Item href="">Another action</NavDropdown.Item>
-                <NavDropdown.Item href="">Something</NavDropdown.Item>
-                <NavDropdown.Item href="">Separated link</NavDropdown.Item>
+              <Nav.Link onClick={() => navigate("/")}>Trang chủ</Nav.Link>
+              <NavDropdown title="Sản Phẩm" id="basic-nav-dropdown">
+                <NavDropdown.Item href="">Len</NavDropdown.Item>
+                <NavDropdown.Item href="">Hoa bó</NavDropdown.Item>
+                <NavDropdown.Item href="">Cây móc</NavDropdown.Item>
+                <NavDropdown.Item href="">Quà tặng</NavDropdown.Item>
+                <NavDropdown.Item href="">Đồ trang trí</NavDropdown.Item>
               </NavDropdown>
-              <Nav.Link href="#about">Giới Thiệu</Nav.Link>
-              <Nav.Link href="#blog">Tin Tức</Nav.Link> 
-              <Nav.Link href="#contact">Liên hệ</Nav.Link>
+              <Nav.Link onClick={() => navigate("/about")}>Giới Thiệu</Nav.Link>
+              <Nav.Link onClick={() => navigate("/blogs")}>Tin Tức</Nav.Link>
+              <Nav.Link onClick={() => navigate("/contact")}>Liên hệ</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

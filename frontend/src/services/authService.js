@@ -1,9 +1,8 @@
 // Authentication Service - Real API Integration
 // Gọi API từ json-server: http://localhost:9999/users
-
-const API_BASE_URL = 'http://localhost:9999';
-const USERS_ENDPOINT = `${API_BASE_URL}/users`;
+import api from './api';
 import { toast } from 'sonner';
+
 // ============================================
 // HELPER FUNCTIONS
 // ============================================
@@ -40,13 +39,8 @@ const getUserFromStorage = () => {
 const login = async (email, password) => {
     try {
         // STEP 1: Fetch all users từ json-server
-        const response = await fetch(USERS_ENDPOINT);
-
-        if (!response.ok) {
-            throw new Error('Không thể kết nối đến server!');
-        }
-
-        const users = await response.json();
+        const response = await api.get('/users');
+        const users = response.data;
 
         // STEP 2: Tìm user có email và password khớp
         const user = users.find(
@@ -85,8 +79,8 @@ const login = async (email, password) => {
 const register = async (userData) => {
     try {
         // STEP 1: Check email đã tồn tại
-        const response = await fetch(USERS_ENDPOINT);
-        const users = await response.json();
+        const response = await api.get('/users');
+        const users = response.data;
 
         const existingUser = users.find((u) => u.email === userData.email);
         if (existingUser) {
@@ -105,19 +99,8 @@ const register = async (userData) => {
         };
 
         // STEP 3: POST lên json-server (json-server tự generate ID)
-        const createResponse = await fetch(USERS_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newUser),
-        });
-
-        if (!createResponse.ok) {
-            throw new Error('Không thể tạo tài khoản!');
-        }
-
-        const createdUser = await createResponse.json();
+        const createResponse = await api.post('/users', newUser);
+        const createdUser = createResponse.data;
 
         // STEP 4: Tạo token
         const token = `jwt-token-${createdUser.id}-${Date.now()}`;
@@ -159,19 +142,8 @@ const getCurrentUser = () => {
  */
 const updateProfile = async (userId, userData) => {
     try {
-        const response = await fetch(`${USERS_ENDPOINT}/${userId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData),
-        });
-
-        if (!response.ok) {
-            throw new Error('Không thể cập nhật thông tin!');
-        }
-
-        const updatedUser = await response.json();
+        const response = await api.put(`/users/${userId}`, userData);
+        const updatedUser = response.data;
 
         // Update localStorage
         const currentData = getUserFromStorage();

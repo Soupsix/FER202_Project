@@ -48,26 +48,27 @@ const Footer = () => {
       <Container className="py-5 text-center text-md-start">
         <Row className="gy-4">
           <Col md={6} lg={4}>
-            <h6 className="text-uppercase fw-bold mb-3">Company name</h6>
+            <h6 className="text-uppercase fw-bold mb-3">WoolGood Shop</h6>
             <p>
-              Here you can use rows and columns to organize your footer content.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Chúng tôi cung cấp các dịch vụ bán lẻ các sản phẩm
+              liên quan đến len, hoa bó, cây móc, quà tặng, đồ trang trí
+              dành cho những bạn yêu thích đồ handmade và móc :3
             </p>
           </Col>
 
           <Col md={6} lg={2}>
             <h6 className="text-uppercase fw-bold mb-3">Products</h6>
             <p className="mb-2">
-              <a href="#!" className="text-reset">Angular</a>
+              <a href="#!" className="text-reset">Len</a>
             </p>
             <p className="mb-2">
-              <a href="#!" className="text-reset">React</a>
+              <a href="#!" className="text-reset">Hoa bó</a>
             </p>
             <p className="mb-2">
-              <a href="#!" className="text-reset">Vue</a>
+              <a href="#!" className="text-reset">Cây móc</a>
             </p>
             <p className="mb-0">
-              <a href="#!" className="text-reset">Laravel</a>
+              <a href="#!" className="text-reset">Quà tặng</a>
             </p>
           </Col>
 
@@ -91,11 +92,11 @@ const Footer = () => {
             <h6 className="text-uppercase fw-bold mb-3">Contact</h6>
             <p className="mb-2">
               <HiHome className="me-2" />
-              New York, NY 10012, US
+              Hoà Lạc, Hà Nội, Việt Nam
             </p>
             <p className="mb-2">
               <HiMail className="me-2" />
-              info@example.com
+              woolgoodshop@gmail.com
             </p>
             <p className="mb-2">
               <HiPhone className="me-2" />
@@ -113,7 +114,7 @@ const Footer = () => {
       <div className="text-center py-3" style={{ backgroundColor: "rgba(0,0,0,0.05)" }}>
         © 2026 Copyright:{" "}
         <a className="text-reset fw-bold" href="#">
-          YourCompany.com
+          WoolGoodShop.com
         </a>
       </div>
     </footer>

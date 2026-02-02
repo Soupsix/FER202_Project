@@ -14,6 +14,9 @@ import Register from "./pages/Auth/Register";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Profile from "./pages/Profile/Profile"
 import { Toaster, toast } from 'sonner'
+import About from "./pages/About/about";
+import Blogs from "./pages/Blogs/blogs";
+import ContactUs from "./pages/Contact/ContactUs";
 
 function App() {
   const dispatch = useDispatch();
@@ -63,6 +66,27 @@ function App() {
                 <ProtectedRoute>
                   <Order />
                 </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/about"
+              element={
+                <About />
+              }
+            />
+
+            <Route
+              path="/blogs"
+              element={
+                <Blogs />
+              }
+            />
+
+            <Route
+              path="/contact"
+              element={
+                <ContactUs />
               }
             />
           </Route>

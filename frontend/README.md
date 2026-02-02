@@ -55,15 +55,8 @@ Vite Plugin React – hỗ trợ React trong Vite
 🔔 Toast thông báo hành động
 
 📁 Project Structure
-src/
- ├── assets/        # Hình ảnh, fonts, static files
- ├── components/    # UI components tái sử dụng
- ├── layout/        # Layout chung (Header, Footer, Navbar…)
- ├── pages/         # Các trang chính (Home, Product, Cart…)
- ├── redux/         # Redux store & slices
- ├── routes/        # Cấu hình routing
- ├── services/      # API calls (axios)
- ├── utils/         # Hàm tiện ích dùng chung
+<img width="278" height="198" alt="image" src="https://github.com/user-attachments/assets/b67c18a3-355b-471e-b030-5d6ce3cfef0b" />
+
 
 🛠️ Installation
 git clone <your-repo-link>

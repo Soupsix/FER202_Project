@@ -1,16 +1,88 @@
-# React + Vite
+🧶 WoolGood Shop – Soupsix
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+WoolGood Shop là dự án e-commerce bán đồ len được phát triển bằng React + Vite cho môn FER202.
+Dự án hướng tới trải nghiệm mua sắm đơn giản, hiện đại và thân thiện với người dùng.
 
-Currently, two official plugins are available:
+📸 Preview
+<img width="1908" height="871" alt="WoolGood Shop Preview" src="https://github.com/user-attachments/assets/a4f7427c-8dc3-49ec-8d5e-7075cb4fac2d" />
+🚀 Tech Stack
+⚛️ Frontend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React 19 – xây dựng giao diện người dùng
 
-## React Compiler
+Vite – dev server & build tool nhanh
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+React Router DOM – điều hướng trang
 
-## Expanding the ESLint configuration
+Redux Toolkit + React Redux – quản lý state toàn cục
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Axios – gọi API backend
+
+🎨 UI & Styling
+
+Ant Design (AntD) – UI framework chính
+
+AntD Style – tùy chỉnh theme
+
+Bootstrap / React Bootstrap – layout & responsive
+
+React Icons – icon library
+
+🔔 UX Enhancement
+
+Sonner – toast notifications
+
+🧹 Dev Tools
+
+ESLint – kiểm tra và chuẩn hóa code
+
+Vite Plugin React – hỗ trợ React trong Vite
+
+📦 Features
+
+🛍️ Hiển thị danh sách sản phẩm
+
+🔍 Tìm kiếm sản phẩm
+
+🛒 Giỏ hàng
+
+❤️ Wishlist
+
+👤 Trang người dùng
+
+📦 Quản lý đơn hàng
+
+🔔 Toast thông báo hành động
+
+📁 Project Structure
+src/
+ ├── assets/        # Hình ảnh, fonts, static files
+ ├── components/    # UI components tái sử dụng
+ ├── layout/        # Layout chung (Header, Footer, Navbar…)
+ ├── pages/         # Các trang chính (Home, Product, Cart…)
+ ├── redux/         # Redux store & slices
+ ├── routes/        # Cấu hình routing
+ ├── services/      # API calls (axios)
+ ├── utils/         # Hàm tiện ích dùng chung
+
+🛠️ Installation
+git clone <your-repo-link>
+cd woolgood-shop
+npm install
+npm run dev
+
+🎯 Purpose
+
+Dự án được xây dựng nhằm:
+
+Học và áp dụng React + Redux
+
+Thực hành xây dựng web e-commerce
+
+Phục vụ môn học FER202
+
+👨‍💻 Author
+
+Soupsix – FER202 Project(Lead)
+Toàn - ToanLK07
+Khánh - khanhdnhe186602-lab

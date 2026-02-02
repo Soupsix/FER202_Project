@@ -181,5 +181,17 @@
       "price": 50000,
       "quantity": 2
     }
+  ],
+  "wishlist": [
+    {
+      "id": 1,
+      "userId": 1,
+      "productId": 1
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "productId": 2
+    }
   ]
 }

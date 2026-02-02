@@ -95,11 +95,11 @@ const Header = () => {
                 <Col xs={24} sm={6} md={6} lg={6} style={{ textAlign: "right" }}>
                     <Space size="large">
                         <Badge count={5} size="small">
-                            <HeartOutlined style={{ fontSize: 20, cursor: "pointer" }} />
+                            <HeartOutlined style={{ fontSize: 20, cursor: "pointer" }} onClick={() => navigate('/wishlist')} />
                         </Badge>
 
                         <Badge count={2} size="small">
-                            <ShoppingCartOutlined style={{ fontSize: 20, cursor: "pointer" }} />
+                            <ShoppingCartOutlined style={{ fontSize: 20, cursor: "pointer" }} onClick={() => navigate('/cart')} />
                         </Badge>
 
                         {isAuthenticated ? (

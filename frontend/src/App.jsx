@@ -17,6 +17,7 @@ import { Toaster, toast } from 'sonner'
 import About from "./pages/About/about";
 import Blogs from "./pages/Blogs/blogs";
 import ContactUs from "./pages/Contact/ContactUs";
+import Wishlist from "./pages/Wishlist/WishlistUser";
 
 function App() {
   const dispatch = useDispatch();
@@ -87,6 +88,15 @@ function App() {
               path="/contact"
               element={
                 <ContactUs />
+              }
+            />
+
+            <Route
+              path="/wishlist"
+              element={
+                <ProtectedRoute>
+                  <Wishlist />
+                </ProtectedRoute>
               }
             />
           </Route>

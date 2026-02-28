@@ -30,17 +30,18 @@ const ProductList = ({ filterCateId }) => {
 
   // 1. Tạo Map tra cứu (để hiện tên thay vì ID)
   const categoryMap = {};
-  categories.forEach(c => categoryMap[c.id] = c.name);
+  categories.forEach((c) => (categoryMap[c.id] = c.name));
   const brandMap = {};
-  brands.forEach(b => brandMap[b.id] = b.name);
+  brands.forEach((b) => (brandMap[b.id] = b.name));
 
   // 2. Logic LỌC: Quan trọng nhất ở đây
   const filteredProducts = products.filter((item) => {
-    if (filterCateId === '0' || !filterCateId) return true; // Hiện tất cả
+    if (filterCateId === "0" || !filterCateId) return true; // Hiện tất cả
     return String(item.categoryId) === String(filterCateId); // So sánh ID dạng chuỗi
   });
 
-  if (loading) return <div className="text-center mt-5">Đang tải sản phẩm...</div>;
+  if (loading)
+    return <div className="text-center mt-5">Đang tải sản phẩm...</div>;
 
   return (
     <Container className="mb-5">
@@ -49,10 +50,10 @@ const ProductList = ({ filterCateId }) => {
           filteredProducts.map((item) => (
             <Col key={item.id}>
               <Card className="h-100 shadow-sm border-0">
-                <Card.Img 
-                  variant="top" 
-                  src={item.image} 
-                  style={{ height: "200px", objectFit: "cover" }} 
+                <Card.Img
+                  variant="top"
+                  src={item.image}
+                  style={{ height: "200px", objectFit: "cover" }}
                 />
                 <Card.Body className="d-flex flex-column">
                   <div className="mb-2">
@@ -63,10 +64,13 @@ const ProductList = ({ filterCateId }) => {
                       {brandMap[item.brandId] || "K Có gì"}
                     </Badge>
                   </div>
-                  
+
                   <Card.Title className="fs-6 fw-bold">{item.name}</Card.Title>
-                  
-                  <Card.Text className="text-muted small" style={{ flexGrow: 1 }}>
+
+                  <Card.Text
+                    className="text-muted small"
+                    style={{ flexGrow: 1 }}
+                  >
                     {item.description}
                   </Card.Text>
 
@@ -84,7 +88,9 @@ const ProductList = ({ filterCateId }) => {
           ))
         ) : (
           <Col xs={12} className="text-center">
-            <p className="text-muted">Không có sản phẩm nào thuộc danh mục này.</p>
+            <p className="text-muted">
+              Không có sản phẩm nào thuộc danh mục này.
+            </p>
           </Col>
         )}
       </Row>

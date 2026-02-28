@@ -6,7 +6,6 @@ import MainLayout from "./layout/MainLayout/MainLayout";
 import AuthLayout from "./layout/AuthLayout/AuthLayout";
 
 import HomePage from './pages/Home/HomePage'
-import Product from "./pages/Products/Product";
 import Cart from "./pages/Cart/Cart";
 import Order from "./pages/Order/Order";
 import Login from "./pages/Auth/Login";
@@ -18,6 +17,7 @@ import About from "./pages/About/about";
 import Blogs from "./pages/Blogs/blogs";
 import ContactUs from "./pages/Contact/ContactUs";
 import Wishlist from "./pages/Wishlist/WishlistUser";
+import ProductDetail from './pages/Products/ProductDetail';
 
 function App() {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ function App() {
           {/* Layout chính */}
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/products" element={<Product />} />
+           
 
             <Route
               path="/profile"
@@ -97,6 +97,14 @@ function App() {
                 <ProtectedRoute>
                   <Wishlist />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/productdetail"
+              element={
+                <>
+                  <ProductDetail />
+                </>
               }
             />
           </Route>

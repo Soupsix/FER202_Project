@@ -13,11 +13,13 @@ const ProductDetail = () => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   
+  // 1. Thêm State để lưu ảnh đang hiển thị
+  const [currentImage, setCurrentImage] = useState("");
+
   useEffect(() => {
     const fetchProductData = async () => {
       try {
         setLoading(true);
-        // SỬA: Dùng dấu backtick ` để template string hoạt động
         const [prodRes, cateRes, brandRes] = await Promise.all([
           axios.get(`http://localhost:9999/products/${id}`),
           axios.get("http://localhost:9999/categories"),
@@ -27,6 +29,9 @@ const ProductDetail = () => {
         setProduct(prodRes.data);
         setCategories(cateRes.data);
         setBrands(brandRes.data);
+        
+        // 2. Thiết lập ảnh mặc định khi load xong
+        setCurrentImage(prodRes.data.image); 
       } catch (err) {
         console.error("Lỗi fetch data:", err);
       } finally {
@@ -36,25 +41,13 @@ const ProductDetail = () => {
     fetchProductData();
   }, [id]);
 
-  // Logic map tên Category và Brand
   const categoryMap = {};
   categories.forEach((c) => (categoryMap[c.id] = c.name));
   const brandMap = {};
   brands.forEach((b) => (brandMap[b.id] = b.name));
 
   const handleIncrease = () => setQuantity(prev => prev + 1);
-  const handleDecrease = () => {
-    if (quantity > 1) setQuantity(prev => prev - 1);
-  };
-
-  const handleInputChange = (e) => {
-    const value = parseInt(e.target.value);
-    if (!isNaN(value) && value > 0) {
-      setQuantity(value);
-    } else if (e.target.value === "") {
-      setQuantity(""); 
-    }
-  };
+  const handleDecrease = () => { if (quantity > 1) setQuantity(prev => prev - 1); };
 
   if (loading) return <div className="text-center mt-5">Đang tải sản phẩm...</div>;
   if (!product) return <div className="text-center mt-5">Không tìm thấy sản phẩm!</div>;
@@ -63,15 +56,41 @@ const ProductDetail = () => {
     <Container className='bg-white mt-5 p-4 rounded shadow-sm border'>
       <Row>
         <Col md={5}> 
+          {/* 3. Hiển thị ảnh đang được chọn (Ảnh to) */}
           <Card.Img 
-            src={product.image} 
+            src={currentImage} 
             style={{ width: "100%", height: "450px", objectFit: "cover", borderRadius: "10px" }} 
+            className="border"
           />
+
+          {/* 4. Danh sách ảnh nhỏ (Thumbnails) */}
+          {product.images && product.images.length > 0 && (
+            <div className="d-flex mt-3 gap-2 overflow-auto pb-2">
+              {/* Thêm ảnh chính vào danh sách thumbnails nếu muốn */}
+              {[product.image, ...product.images].map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt={`sub-${index}`}
+                  onClick={() => setCurrentImage(img)} // Bấm vào đây để đổi ảnh to
+                  style={{ 
+                    width: "80px", 
+                    height: "80px", 
+                    objectFit: "cover", 
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    border: currentImage === img ? "2px solid #0d6efd" : "1px solid #ddd",
+                    opacity: currentImage === img ? "1" : "0.7"
+                  }}
+                  className="thumbnail-img"
+                />
+              ))}
+            </div>
+          )}
         </Col>
 
         <Col md={7} className='ps-md-5 d-flex flex-column justify-content-center'>
           <div className="mb-2">
-            {/* SỬA: Dùng product.categoryId thay vì item.categoryId */}
             <Badge bg="info" className="me-1 fw-normal">
               {categoryMap[product.categoryId] || "Chưa phân loại"}
             </Badge>
@@ -81,7 +100,6 @@ const ProductDetail = () => {
           </div>
 
           <h2 className="fw-bold mb-3">{product.name}</h2>
-          
           <p className="text-muted mb-4">{product.description}</p>
 
           <h3 className="text-danger fw-bold mb-4">
@@ -91,27 +109,22 @@ const ProductDetail = () => {
           <div className="d-flex align-items-center mb-4">
             <div className="input-group me-3" style={{ width: '130px' }}>
               <button className="btn btn-outline-secondary shadow-none" onClick={handleDecrease}>-</button>
-              <input 
-                type="number" 
-                className="form-control text-center shadow-none" 
-                value={quantity} 
-                onChange={handleInputChange} 
-              />
+              <input type="number" className="form-control text-center shadow-none" value={quantity} readOnly />
               <button className="btn btn-outline-secondary shadow-none" onClick={handleIncrease}>+</button>
             </div>
 
-            <div 
-              onClick={() => setIsWishlisted(!isWishlisted)}
-              style={{ cursor: 'pointer', fontSize: '28px' }}
-              title="Thêm vào yêu thích"
-            >
+            <div onClick={() => setIsWishlisted(!isWishlisted)} style={{ cursor: 'pointer', fontSize: '28px' }}>
               {isWishlisted ? <AiFillHeart color="red" /> : <AiOutlineHeart color="gray" />}
             </div>
           </div>
 
           <div className="pt-3">
-            <Button variant="dark" className="px-5 py-2 me-2 fw-bold">Thêm vào giỏ</Button>
-            <Button variant="outline-danger" className="px-5 py-2 fw-bold">Mua ngay</Button>
+            <Button variant="dark" className="px-5 py-2 me-2 fw-bold" disabled={product.quantity <= 0}>
+              {product.quantity <= 0 ? "Hết hàng" : "Thêm vào giỏ"}
+            </Button>
+            <Button variant="outline-danger" className="px-5 py-2 fw-bold" disabled={product.quantity <= 0}>
+              Mua ngay
+            </Button>
           </div>
         </Col>
       </Row>

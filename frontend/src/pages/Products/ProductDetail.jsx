@@ -12,7 +12,7 @@ const ProductDetail = () => {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     const fetchProductData = async () => {
       try {

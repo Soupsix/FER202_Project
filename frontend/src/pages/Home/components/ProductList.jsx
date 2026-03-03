@@ -49,7 +49,6 @@ const ProductList = ({ filterCateId }) => {
         {filteredProducts.length > 0 ? (
           filteredProducts.map((item) => (
             <Col key={item.id}>
-              {/* SỬA LỖI Ở ĐÂY: Gộp onClick và className vào đúng thẻ Card */}
               <Card 
                 className="h-100 shadow-sm border-0" 
                 onClick={() => navigate(`/product/${item.id}`)}
@@ -75,13 +74,24 @@ const ProductList = ({ filterCateId }) => {
                   <Card.Text className="text-muted small" style={{ flexGrow: 1 }}>
                     {item.description}
                   </Card.Text>
+                   <Card.Text className="text-muted small" style={{ flexGrow: 1 }}>
+                    Số Lượng sản phẩm:{item.quantity}
+                  </Card.Text>
 
                   <div className="mt-auto">
                     <h5 className="text-danger fw-bold">
                       {item.price?.toLocaleString("vi-VN")} đ
                     </h5>
-                    <Button variant="primary" className="w-100 mt-2">
-                      Chọn mua
+                    <Button
+                      variant={item.quantity <= 0 ? "secondary" : "primary"}
+                      className="w-100 mt-2 shadow-none"
+                      disabled={item.quantity <= 0} // Chặn bấm nếu hết hàng
+                      onClick={(e) => {
+                        e.stopPropagation(); // Ngăn không cho nhảy vào trang chi tiết khi bấm nút
+                        // Thêm logic chọn mua của bạn ở đây
+                      }}
+                    >
+                      {item.quantity <= 0 ? "Sản phẩm không còn hàng" : "Chọn mua"}
                     </Button>
                   </div>
                 </Card.Body>

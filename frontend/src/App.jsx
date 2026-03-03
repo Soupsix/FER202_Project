@@ -41,7 +41,7 @@ function App() {
           {/* Layout chính */}
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
-           
+
 
             <Route
               path="/profile"
@@ -100,12 +100,8 @@ function App() {
               }
             />
             <Route
-              path="/productdetail"
-              element={
-                <>
-                  <ProductDetail />
-                </>
-              }
+              path="/product/:id"
+              element={<ProductDetail />}
             />
           </Route>
 

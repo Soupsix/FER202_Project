@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
-const Header = () => {
+const Header = ({searchTerm ,setSearchTerm}) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isAuthenticated } = useSelector((state) => state.auth);
@@ -87,7 +87,8 @@ const Header = () => {
                         placeholder="Tìm kiếm sản phẩm..."
                         allowClear
                         size="large"
-                        onSearch={(value) => console.log("Search:", value)}
+                         value={searchTerm}
+                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </Col>
 

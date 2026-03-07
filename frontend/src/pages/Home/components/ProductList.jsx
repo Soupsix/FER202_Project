@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-const ProductList = ({ filterCateId }) => {
+
+// PHẢI CÓ searchTerm ở đây thì mới dùng bên dưới được cu nhé!
+const ProductList = ({ filterCateId, searchTerm }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,29 +31,39 @@ const ProductList = ({ filterCateId }) => {
     fetchData();
   }, []);
 
-  // 1. Tạo Map tra cứu (để hiện tên thay vì ID)
+  // Map tra cứu tên
   const categoryMap = {};
   categories.forEach((c) => (categoryMap[c.id] = c.name));
   const brandMap = {};
   brands.forEach((b) => (brandMap[b.id] = b.name));
 
-  // 2. Logic LỌC: Quan trọng nhất ở đây
+  // LOGIC LỌC TỔNG HỢP: Category + Search
   const filteredProducts = products.filter((item) => {
-    if (filterCateId === "0" || !filterCateId) return true; // Hiện tất cả
-    return String(item.categoryId) === String(filterCateId); // So sánh ID dạng chuỗi
+    // 1. Lọc theo Category
+    const matchesCategory =
+      filterCateId === "0" || !filterCateId
+        ? true
+        : String(item.categoryId) === String(filterCateId);
+
+    // 2. Lọc theo Search Term (Thêm kiểm tra tồn tại để tránh lỗi trắng trang)
+    const matchesSearch = searchTerm
+      ? item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      : true;
+
+    return matchesCategory && matchesSearch;
   });
 
   if (loading)
     return <div className="text-center mt-5">Đang tải sản phẩm...</div>;
 
   return (
-   <Container className="mb-5">
+    <Container className="mb-5">
       <Row lg={4} md={3} sm={2} xs={1} className="g-4">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((item) => (
             <Col key={item.id}>
-              <Card 
-                className="h-100 shadow-sm border-0" 
+              <Card
+                className="h-100 shadow-sm border-0"
                 onClick={() => navigate(`/product/${item.id}`)}
                 style={{ cursor: "pointer" }}
               >
@@ -74,8 +87,9 @@ const ProductList = ({ filterCateId }) => {
                   <Card.Text className="text-muted small" style={{ flexGrow: 1 }}>
                     {item.description}
                   </Card.Text>
-                   <Card.Text className="text-muted small" style={{ flexGrow: 1 }}>
-                    Số Lượng sản phẩm:{item.quantity}
+                  
+                  <Card.Text className="text-muted small">
+                    Số lượng: {item.quantity}
                   </Card.Text>
 
                   <div className="mt-auto">
@@ -85,13 +99,10 @@ const ProductList = ({ filterCateId }) => {
                     <Button
                       variant={item.quantity <= 0 ? "secondary" : "primary"}
                       className="w-100 mt-2 shadow-none"
-                      disabled={item.quantity <= 0} // Chặn bấm nếu hết hàng
-                      onClick={(e) => {
-                        e.stopPropagation(); // Ngăn không cho nhảy vào trang chi tiết khi bấm nút
-                        // Thêm logic chọn mua của bạn ở đây
-                      }}
+                      disabled={item.quantity <= 0}
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      {item.quantity <= 0 ? "Sản phẩm không còn hàng" : "Chọn mua"}
+                      {item.quantity <= 0 ? "Hết hàng" : "Chọn mua"}
                     </Button>
                   </div>
                 </Card.Body>
@@ -99,8 +110,8 @@ const ProductList = ({ filterCateId }) => {
             </Col>
           ))
         ) : (
-          <Col xs={12} className="text-center">
-            <p className="text-muted">Không có sản phẩm nào.</p>
+          <Col xs={12} className="text-center mt-5">
+            <p className="text-muted">Không tìm thấy sản phẩm nào phù hợp.</p>
           </Col>
         )}
       </Row>

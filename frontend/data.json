@@ -139,10 +139,10 @@
       "name": "Hoa cẩm tú cầu",
       "image": "https://scontent.fhan2-5.fna.fbcdn.net/v/t1.6435-9/79376442_766812223833543_632286926195392512_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=b895b5&_nc_ohc=n5baQdHzHv4Q7kNvwGnfXhq&_nc_oc=Adn5wEdUc5rSFnHdQJe-Azpm1rCMMfuCcNgHco-8rX6Iqv3ZO8Yg4Fy8qDouCJ6G4UM&_nc_zt=23&_nc_ht=scontent.fhan2-5.fna&_nc_gid=Cm2bor0lNXjA0QfH-ltw2w&_nc_ss=8&oh=00_AfyoBGkLoo8jT5NG6YLV_eFSb_58ZBUh2J7rJv5w1D9h2Q&oe=69CDF659",
       "images": [
-    "https://picsum.photos/seed/len2/400/400",
-    "https://scontent.fhan2-5.fna.fbcdn.net/v/t39.30808-6/481006196_2061175057730580_2746414626026260299_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=53a332&_nc_ohc=l5CZY23oSHoQ7kNvwGGw0eR&_nc_oc=Admi3yPAlvbIyFEFQb6uB4of5XxAeMFmixkMX2Zb3SVoV84OC95AjTUGzgZSEUXWh5s&_nc_zt=23&_nc_ht=scontent.fhan2-5.fna&_nc_gid=_eX-JaZaEcmJp1ghr8nw1w&_nc_ss=8&oh=00_AfxjlLEBqsxdh-2UTkP-EgMfAZO9CJfkWv6Muj1gQmF1fw&oe=69AC5416",
-    "link_anh_3.jpg"
-  ],
+        "https://picsum.photos/seed/len2/400/400",
+        "https://scontent.fhan2-5.fna.fbcdn.net/v/t39.30808-6/481006196_2061175057730580_2746414626026260299_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=53a332&_nc_ohc=l5CZY23oSHoQ7kNvwGGw0eR&_nc_oc=Admi3yPAlvbIyFEFQb6uB4of5XxAeMFmixkMX2Zb3SVoV84OC95AjTUGzgZSEUXWh5s&_nc_zt=23&_nc_ht=scontent.fhan2-5.fna&_nc_gid=_eX-JaZaEcmJp1ghr8nw1w&_nc_ss=8&oh=00_AfxjlLEBqsxdh-2UTkP-EgMfAZO9CJfkWv6Muj1gQmF1fw&oe=69AC5416",
+        "link_anh_3.jpg"
+      ],
       "description": "Hoa cẩm tú cầu đan tay đẳng sì cấp đã tặng Trần Hà Linh",
       "categoryId": 2,
       "brandId": 5,
@@ -167,7 +167,19 @@
       "id": 1,
       "userId": 1,
       "productId": 1,
-      "quantity": 2
+      "quantity": 1
+    },
+    {
+      "userId": 1,
+      "productId": 2,
+      "quantity": 3,
+      "id": 3
+    },
+    {
+      "userId": 1,
+      "productId": 3,
+      "quantity": 1,
+      "id": 4
     }
   ],
   "orders": [

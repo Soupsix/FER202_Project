@@ -2,12 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { createCartItem } from "../../../services/cartService";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
 const ProductList = ({ filterCateId }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { user, isAuthenticated, loading: authLoading } = useSelector((state) => state.auth);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,13 +48,13 @@ const ProductList = ({ filterCateId }) => {
     return <div className="text-center mt-5">Đang tải sản phẩm...</div>;
 
   return (
-   <Container className="mb-5">
+    <Container className="mb-5">
       <Row lg={4} md={3} sm={2} xs={1} className="g-4">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((item) => (
             <Col key={item.id}>
-              <Card 
-                className="h-100 shadow-sm border-0" 
+              <Card
+                className="h-100 shadow-sm border-0"
                 onClick={() => navigate(`/product/${item.id}`)}
                 style={{ cursor: "pointer" }}
               >
@@ -74,7 +78,7 @@ const ProductList = ({ filterCateId }) => {
                   <Card.Text className="text-muted small" style={{ flexGrow: 1 }}>
                     {item.description}
                   </Card.Text>
-                   <Card.Text className="text-muted small" style={{ flexGrow: 1 }}>
+                  <Card.Text className="text-muted small" style={{ flexGrow: 1 }}>
                     Số Lượng sản phẩm:{item.quantity}
                   </Card.Text>
 
@@ -89,6 +93,12 @@ const ProductList = ({ filterCateId }) => {
                       onClick={(e) => {
                         e.stopPropagation(); // Ngăn không cho nhảy vào trang chi tiết khi bấm nút
                         // Thêm logic chọn mua của bạn ở đây
+                        if (!isAuthenticated) {
+                          toast.warning("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!")
+                          navigate('/login');
+                          return;
+                        }
+                        createCartItem(user.id, item.id, 1);
                       }}
                     >
                       {item.quantity <= 0 ? "Sản phẩm không còn hàng" : "Chọn mua"}

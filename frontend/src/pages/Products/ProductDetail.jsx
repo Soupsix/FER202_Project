@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { toast } from "sonner";
+import { createCartItem } from "../../services/cartService";
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+  const { user, isAuthenticated, loading: authLoading } = useSelector((state) => state.auth);
+
   // 1. Thêm State để lưu ảnh đang hiển thị
   const [currentImage, setCurrentImage] = useState("");
 
@@ -25,13 +30,13 @@ const ProductDetail = () => {
           axios.get("http://localhost:9999/categories"),
           axios.get("http://localhost:9999/brands"),
         ]);
-        
+
         setProduct(prodRes.data);
         setCategories(cateRes.data);
         setBrands(brandRes.data);
-        
+
         // 2. Thiết lập ảnh mặc định khi load xong
-        setCurrentImage(prodRes.data.image); 
+        setCurrentImage(prodRes.data.image);
       } catch (err) {
         console.error("Lỗi fetch data:", err);
       } finally {
@@ -46,7 +51,11 @@ const ProductDetail = () => {
   const brandMap = {};
   brands.forEach((b) => (brandMap[b.id] = b.name));
 
-  const handleIncrease = () => setQuantity(prev => prev + 1);
+  //Hàm tăng giảm số lượng và check số lượng trong kho
+  const handleIncrease = () => {
+    if (quantity < product.quantity) setQuantity(prev => prev + 1);
+    else toast.warning(`Chỉ còn ${product.quantity} sản phẩm trong kho!`);
+  };
   const handleDecrease = () => { if (quantity > 1) setQuantity(prev => prev - 1); };
 
   if (loading) return <div className="text-center mt-5">Đang tải sản phẩm...</div>;
@@ -55,11 +64,11 @@ const ProductDetail = () => {
   return (
     <Container className='bg-white mt-5 p-4 rounded shadow-sm border'>
       <Row>
-        <Col md={5}> 
+        <Col md={5}>
           {/* 3. Hiển thị ảnh đang được chọn (Ảnh to) */}
-          <Card.Img 
-            src={currentImage} 
-            style={{ width: "100%", height: "450px", objectFit: "cover", borderRadius: "10px" }} 
+          <Card.Img
+            src={currentImage}
+            style={{ width: "100%", height: "450px", objectFit: "cover", borderRadius: "10px" }}
             className="border"
           />
 
@@ -73,10 +82,10 @@ const ProductDetail = () => {
                   src={img}
                   alt={`sub-${index}`}
                   onClick={() => setCurrentImage(img)} // Bấm vào đây để đổi ảnh to
-                  style={{ 
-                    width: "80px", 
-                    height: "80px", 
-                    objectFit: "cover", 
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    objectFit: "cover",
                     borderRadius: "5px",
                     cursor: "pointer",
                     border: currentImage === img ? "2px solid #0d6efd" : "1px solid #ddd",
@@ -119,7 +128,20 @@ const ProductDetail = () => {
           </div>
 
           <div className="pt-3">
-            <Button variant="dark" className="px-5 py-2 me-2 fw-bold" disabled={product.quantity <= 0}>
+            <Button variant="dark"
+              className="px-5 py-2 me-2 fw-bold"
+              disabled={product.quantity <= 0}
+              onClick={(e) => {
+
+                // Thêm logic chọn mua của bạn ở đây
+                if (!isAuthenticated) {
+                  toast.warning("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!")
+                  navigate('/login');
+                  return;
+                }
+                createCartItem(user.id, product.id, quantity);
+              }}
+            >
               {product.quantity <= 0 ? "Hết hàng" : "Thêm vào giỏ"}
             </Button>
             <Button variant="outline-danger" className="px-5 py-2 fw-bold" disabled={product.quantity <= 0}>

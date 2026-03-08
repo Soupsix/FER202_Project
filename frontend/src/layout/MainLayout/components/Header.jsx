@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Input, Badge, Avatar, Space, Dropdown, Button } from "antd";
-
+import axios from "axios";
 import {
     HeartOutlined,
     ShoppingCartOutlined,
@@ -22,7 +22,25 @@ const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isAuthenticated } = useSelector((state) => state.auth);
+    const [cartItemCount, setCardItemCount] = useState(0);
 
+    const { user } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        const fetchCartCount = async () => {
+            if (!user) {
+                setCardItemCount(0); // Chưa đăng nhập → reset về 0
+                return;
+            }
+            try {
+                const res = await axios.get(`http://localhost:9999/cart?userId=${user.id}`);
+                setCardItemCount(res.data.length);
+            } catch (err) {
+                console.error("Lỗi fetch cart count:", err);
+            }
+        };
+        fetchCartCount();
+    }, [user]); // Re-fetch khi user thay đổi (login/logout)
 
     const items = [
         {
@@ -98,7 +116,7 @@ const Header = () => {
                             <HeartOutlined style={{ fontSize: 20, cursor: "pointer" }} onClick={() => navigate('/wishlist')} />
                         </Badge>
 
-                        <Badge count={2} size="small">
+                        <Badge count={cartItemCount} size="small">
                             <ShoppingCartOutlined style={{ fontSize: 20, cursor: "pointer" }} onClick={() => navigate('/cart')} />
                         </Badge>
 

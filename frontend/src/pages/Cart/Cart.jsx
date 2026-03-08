@@ -1,36 +1,46 @@
-import React, { useState } from 'react'
-import { Col, Row, Card, Button, Flex, InputNumber, Input, Radio, Space } from 'antd';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react'
+import { Col, Row, Card, Button, Flex, InputNumber, Input, Radio, Space, Empty, Spin } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
 import { Typography } from 'antd';
 import { HomeOutlined, EditOutlined, CheckCircleFilled } from '@ant-design/icons';
+import { fetchCartProducts } from '../../redux/slices/cartSlice';
+import { fetchProducts } from '../../redux/slices/productSlice';
+import { selectCartWithProducts } from '../../redux/selectors/joinSelectors';
+import { updateCartItemQuantity, deleteCartItem } from '../../services/cartService';
 const { Text } = Typography;
 
 const Cart = () => {
 
-  const onChange = value => {
-    console.log('changed', value);
-  };
-
-  const sharedProps = {
-    mode: 'spinner',
-    min: 1,
-    max: 10,
-    defaultValue: 3,
-    onChange,
-    style: { width: 120 },
-  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user, isAuthenticated, loading } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, loading: authLoading } = useSelector((state) => state.auth);
+  const { loading: cartLoading } = useSelector((state) => state.cart);
+  const products = useSelector(selectCartWithProducts);
 
   // State quản lý địa chỉ giao hàng
   const [addressMode, setAddressMode] = useState('saved'); // 'saved' | 'custom'
   const [customAddress, setCustomAddress] = useState('');
   const [selectedAddress, setSelectedAddress] = useState(user?.address || '');
+  const [quantities, setQuantities] = useState({}); //State quản lý quantity
+
+  useEffect(() => {
+    if (products.length > 0) {
+      const initialQuantities = {};
+      products.forEach(product => {
+        initialQuantities[product.id] = product.quantity || 1; // dùng product.id (json-server)
+      });
+      setQuantities(initialQuantities);
+    }
+  }, [products]);
+
+
+  useEffect(() => {
+    dispatch(fetchCartProducts());
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   const handleAddressConfirm = () => {
     if (addressMode === 'custom' && customAddress.trim()) {
@@ -40,60 +50,76 @@ const Cart = () => {
     }
   };
 
+  const handleDeleteCartItem = async (cartItemId) => {
+    try {
+      await deleteCartItem(cartItemId);
+      dispatch(fetchCartProducts());
+    } catch (error) {
+      console.error('Error deleting cart item:', error);
+    }
+  };
+
+  const sharedProps = {
+    mode: 'spinner',
+    min: 1,
+    style: { width: 120 },
+  };
+
+  const totalPrice = products.reduce((sum, product) => {
+    const qty = quantities[product.id] ?? product.quantity ?? 1;
+    return sum + ((product?.price ?? 0) * qty);
+  }, 0);
+
   return (
     <>
       <Row justify="center" gutter={24} className='my-5' >
         <Col span={12} >
-          <Card title={`Giỏ hàng của ${user.name}: `} bordered={true} >
-            <Row className='mx-3'>
-              <Col span={4}>
-                <img src="../public/images/Banner1.jpg" alt="Ảnh Product1" style={{ width: '142px', height: '100px' }} />
-              </Col>
-              <Col span={5} className='d-flex align-items-center justify-content-center'>
-                <p>Sản phẩm 1</p>
-              </Col>
-              <Col span={5} className='d-flex align-items-center justify-content-center'>
-                <p>
-                  <Flex vertical gap="middle">
-                    <InputNumber {...sharedProps} variant="filled" placeholder="Filled" />
-                  </Flex>
-                </p>
-              </Col>
-              <Col span={5} className='d-flex align-items-center justify-content-center'>
-                <p>330.000vnđ</p>
-              </Col>
-              <Col span={5} className='d-flex align-items-center justify-content-center'>
-                <p>
-                  <Button>X</Button>
-                </p>
-              </Col>
-            </Row>
-
-            <hr />
-
-            <Row className='mx-3'>
-              <Col span={4}>
-                <img src="../public/images/Banner1.jpg" alt="Ảnh Product1" style={{ width: '142px', height: '100px' }} />
-              </Col>
-              <Col span={5} className='d-flex align-items-center justify-content-center'>
-                <p>Sản phẩm 2</p>
-              </Col>
-              <Col span={5} className='d-flex align-items-center justify-content-center'>
-                <p>
-                  <Flex vertical gap="middle">
-                    <InputNumber {...sharedProps} variant="filled" placeholder="Filled" />
-                  </Flex>
-                </p>
-              </Col>
-              <Col span={5} className='d-flex align-items-center justify-content-center'>
-                <p>330.000vnđ</p>
-              </Col>
-              <Col span={5} className='d-flex align-items-center justify-content-center'>
-                <p>
-                  <Button>X</Button>
-                </p>
-              </Col>
-            </Row>
+          <Card title={`Giỏ hàng của ${user?.name || 'User'}: `} bordered={true} >
+            {cartLoading ? (
+              <Spin tip="Đang tải..." />
+            ) : products.length === 0 ? (
+              <Empty description="Giỏ hàng trống" />
+            ) : (
+              products.map((product, index) => (
+                <div key={product?._id || index}>
+                  <Row className='mx-3'>
+                    <Col span={4}>
+                      <img src={product?.image || '../public/images/Banner1.jpg'} alt={product?.name} style={{ width: '142px', height: '100px', objectFit: 'cover' }} />
+                    </Col>
+                    <Col span={5} className='d-flex align-items-center justify-content-center'>
+                      <p>{product?.name}</p>
+                    </Col>
+                    <Col span={5} className='d-flex align-items-center justify-content-center'>
+                      <p>
+                        <Flex vertical gap="middle">
+                          <InputNumber
+                            {...sharedProps}
+                            variant="filled"
+                            value={quantities[product.id] ?? product.quantity ?? 1}
+                            max={product?.stock ?? 99}
+                            onChange={(val) => {
+                              // Cập nhật UI ngay lập tức
+                              setQuantities(prev => ({ ...prev, [product.id]: val }));
+                              // Lưu vào data.json qua API
+                              updateCartItemQuantity(product.id, val);
+                            }}
+                          />
+                        </Flex>
+                      </p>
+                    </Col>
+                    <Col span={5} className='d-flex align-items-center justify-content-center'>
+                      <p>{((product?.price ?? 0) * (quantities[product.id] ?? 1)).toLocaleString('vi-VN')}đ</p>
+                    </Col>
+                    <Col span={5} className='d-flex align-items-center justify-content-center'>
+                      <p>
+                        <Button onClick={() => handleDeleteCartItem(product.id)}>X</Button>
+                      </p>
+                    </Col>
+                  </Row>
+                  <hr />
+                </div>
+              ))
+            )}
           </Card>
         </Col>
 
@@ -101,15 +127,14 @@ const Cart = () => {
           <Row gutter={24}>
             <Col span={24}>
               <Card title="Thanh toán" variant={true}>
-                <Row gutter={24} className='mb-3'>
-                  <Col span={12} >Sản phẩm 1</Col>
-                  <Col span={12} >330.000 (vnđ)</Col>
-                </Row>
-
-                <Row gutter={24} >
-                  <Col span={12} >Sản phẩm 2</Col>
-                  <Col span={12} >330.000 (vnđ)</Col>
-                </Row>
+                {products.map((product, index) => (
+                  <div key={product?._id || index}>
+                    <Row gutter={24} className='mb-3'>
+                      <Col span={12}>{product?.name}</Col>
+                      <Col span={12}>{((product?.price ?? 0) * (quantities[product.id] ?? 1)).toLocaleString('vi-VN')} (vnđ)</Col>
+                    </Row>
+                  </div>
+                ))}
 
                 <hr />
 
@@ -118,7 +143,7 @@ const Cart = () => {
                     <Text strong> Tổng cộng:</Text>
                   </Col>
                   <Col>
-                    <Text strong type="danger"> 660.000 (vnđ)</Text>
+                    <Text strong type="danger"> {totalPrice.toLocaleString('vi-VN')} (vnđ)</Text>
                   </Col>
                 </Row>
                 <Row gutter={24}>
@@ -129,7 +154,7 @@ const Cart = () => {
                       variant='solid'
                       block
                       style={{ marginTop: 12 }}
-                      disabled={addressMode === 'custom' && !customAddress.trim()}
+                      disabled={addressMode === 'custom' && !customAddress.trim() || products.length === 0}
                       onClick={handleAddressConfirm}
                     >
                       Thanh Toán

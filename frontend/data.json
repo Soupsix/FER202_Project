@@ -160,7 +160,227 @@
       "price": 70000,
       "quantity": 0,
       "status": false
-    }
+    },
+    {
+    "id": 6,
+    "name": "Móc khóa Gấu dâu",
+    "image": "https://salt.tikicdn.com/cache/w1200/ts/product/00/f0/2d/8718f4a387532356886e885d95603848.jpg",
+    "description": "Móc khóa gấu dâu Lotso handmade siêu đáng yêu",
+    "categoryId": 3,
+    "brandId": 1,
+    "price": 45000,
+    "quantity": 100,
+    "status": true
+  },
+  {
+    "id": 7,
+    "name": "Chậu cây xương rồng len",
+    "image": "https://lzd-img-global.slatic.net/g/p/92049e3b8793393998b375b6370f69a5.jpg",
+    "description": "Chậu xương rồng trang trí bàn làm việc không cần tưới",
+    "categoryId": 5,
+    "brandId": 5,
+    "price": 85000,
+    "quantity": 30,
+    "status": true
+  },
+  {
+    "id": 8,
+    "name": "Túi xách hoa cúc",
+    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lj2v09y985pjae",
+    "description": "Túi xách len đan tay họa tiết hoa cúc vintage",
+    "categoryId": 4,
+    "brandId": 6,
+    "price": 250000,
+    "quantity": 15,
+    "status": true
+  },
+  {
+    "id": 9,
+    "name": "Búp bê len Amigurumi",
+    "image": "https://bizweb.dktcdn.net/100/414/048/products/bup-be-len-handmade.jpg",
+    "description": "Búp bê len cao cấp cho bé gái, an toàn sức khỏe",
+    "categoryId": 4,
+    "brandId": 1,
+    "price": 350000,
+    "quantity": 10,
+    "status": true
+  },
+  {
+    "id": 10,
+    "name": "Len Milk Bò 50g",
+    "image": "https://ngoclanhandmade.com/wp-content/uploads/2021/04/len-milk-bo-1.jpg",
+    "description": "Len Milk bò loại 1, sợi mềm mịn không xù",
+    "categoryId": 1,
+    "brandId": 2,
+    "price": 15000,
+    "quantity": 500,
+    "status": true
+  },
+  {
+    "id": 11,
+    "name": "Bó hoa Hướng Dương 3 bông",
+    "image": "https://tiemtaphoanhamay.vn/storage/images/product/bo-hoa-huong-duong-len-handmade-1681284534.jpg",
+    "description": "Bó hoa hướng dương rực rỡ tặng tốt nghiệp",
+    "categoryId": 2,
+    "brandId": 3,
+    "price": 180000,
+    "quantity": 40,
+    "status": true
+  },
+  {
+    "id": 12,
+    "name": "Móc khóa Capybara",
+    "image": "https://down-vn.img.susercontent.com/file/sg-11134201-7reph-m0v7i7x87v7i7x",
+    "description": "Bộ trưởng bộ ngoại giao Capybara phiên bản len",
+    "categoryId": 3,
+    "brandId": 6,
+    "price": 55000,
+    "quantity": 120,
+    "status": true
+  },
+  {
+    "id": 13,
+    "name": "Thảm lót ly hoa hướng dương",
+    "image": "https://bizweb.dktcdn.net/100/441/657/products/mieng-lot-ly-len.jpg",
+    "description": "Miếng lót ly handmade decor không gian sống",
+    "categoryId": 5,
+    "brandId": 5,
+    "price": 25000,
+    "quantity": 200,
+    "status": true
+  },
+  {
+    "id": 14,
+    "name": "Nón len Beanie",
+    "image": "https://product.hstatic.net/200000259653/product/mu-len-beanie-tron_8f4472d4b94a4f89999887755c3f9a74.jpg",
+    "description": "Nón len ấm áp cho mùa đông giá rét",
+    "categoryId": 4,
+    "brandId": 1,
+    "price": 120000,
+    "quantity": 60,
+    "status": true
+  },
+  {
+    "id": 15,
+    "name": "Set quà tặng combo hoa & nến",
+    "image": "https://tuoitre.vn/thumbs/2023/10/18/set-qua-tang-len-1697621456.jpg",
+    "description": "Hộp quà tặng tinh tế cho người thương",
+    "categoryId": 4,
+    "brandId": 6,
+    "price": 450000,
+    "quantity": 5,
+    "status": true
+  },
+  {
+    "id": 16,
+    "name": "Len Nhung Đũa siêu to",
+    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lg3h4651765176",
+    "description": "Sợi nhung đũa dùng để móc chăn, thảm",
+    "categoryId": 1,
+    "brandId": 2,
+    "price": 35000,
+    "quantity": 80,
+    "status": true
+  },
+  {
+    "id": 17,
+    "name": "Bó hoa Oải hương (Lavender)",
+    "image": "https://salt.tikicdn.com/cache/w1200/ts/product/ea/15/8d/8d1ea158d158d158d158d158d.jpg",
+    "description": "Hoa oải hương len tím mộng mơ không bao giờ héo",
+    "categoryId": 2,
+    "brandId": 3,
+    "price": 110000,
+    "quantity": 25,
+    "status": true
+  },
+  {
+    "id": 18,
+    "name": "Kẹp tóc mầm cây",
+    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lkj123456789",
+    "description": "Kẹp tóc mầm cây xanh mướt đu trend",
+    "categoryId": 3,
+    "brandId": 1,
+    "price": 15000,
+    "quantity": 300,
+    "status": true
+  },
+  {
+    "id": 19,
+    "name": "Gối ôm đám mây",
+    "image": "https://picsum.photos/seed/cloud/400/400",
+    "description": "Gối ôm hình đám mây bằng len nhung cực êm",
+    "categoryId": 5,
+    "brandId": 5,
+    "price": 280000,
+    "quantity": 12,
+    "status": true
+  },
+  {
+    "id": 20,
+    "name": "Móc khóa Heo hồng hồng",
+    "image": "https://picsum.photos/seed/pig/400/400",
+    "description": "Móc khóa heo hồng ủn ỉn",
+    "categoryId": 3,
+    "brandId": 6,
+    "price": 40000,
+    "quantity": 90,
+    "status": true
+  },
+  {
+    "id": 21,
+    "name": "Túi đựng tỏi cho bé",
+    "image": "https://picsum.photos/seed/garlic/400/400",
+    "description": "Túi len nhỏ xinh đựng tỏi trừ tà cho bé yêu",
+    "categoryId": 4,
+    "brandId": 1,
+    "price": 35000,
+    "quantity": 150,
+    "status": true
+  },
+  {
+    "id": 22,
+    "name": "Bó hoa Cúc họa mi",
+    "image": "https://picsum.photos/seed/daisy/400/400",
+    "description": "Cúc họa mi len trắng tinh khôi",
+    "categoryId": 2,
+    "brandId": 3,
+    "price": 150000,
+    "quantity": 35,
+    "status": true
+  },
+  {
+    "id": 23,
+    "name": "Khăn choàng cổ mùa đông",
+    "image": "https://picsum.photos/seed/scarf/400/400",
+    "description": "Khăn choàng len đan kiểu xương cá",
+    "categoryId": 4,
+    "brandId": 2,
+    "price": 190000,
+    "quantity": 45,
+    "status": true
+  },
+  {
+    "id": 24,
+    "name": "Lọ hoa hồng để bàn",
+    "image": "https://picsum.photos/seed/rose_pot/400/400",
+    "description": "Lọ hoa hồng trang trí sang trọng",
+    "categoryId": 5,
+    "brandId": 5,
+    "price": 220000,
+    "quantity": 8,
+    "status": true
+  },
+  {
+    "id": 25,
+    "name": "Set đan móc cho người mới",
+    "image": "https://picsum.photos/seed/kit/400/400",
+    "description": "Bộ dụng cụ đầy đủ để bắt đầu đam mê đan móc",
+    "categoryId": 1,
+    "brandId": 2,
+    "price": 150000,
+    "quantity": 50,
+    "status": true
+  }
   ],
   "cart": [
     {

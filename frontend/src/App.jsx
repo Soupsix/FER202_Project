@@ -12,18 +12,19 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Profile from "./pages/Profile/Profile"
-import { Toaster, toast } from 'sonner'
+import { Toaster } from 'sonner'
 import About from "./pages/About/about";
 import Blogs from "./pages/Blogs/blogs";
 import ContactUs from "./pages/Contact/ContactUs";
 import Wishlist from "./pages/Wishlist/WishlistUser";
 import ProductDetail from './pages/Products/ProductDetail';
 
+// IMPORT TRANG MỚI Ở ĐÂY CU NHÉ
+import ProductFilter from './pages/Home/components/ProductFilter'; 
+
 function App() {
   const dispatch = useDispatch();
 
-  // Load user từ localStorage khi app khởi động
-  // Để user không cần login lại sau khi refresh page
   useEffect(() => {
     dispatch(loadUserFromStorage());
   }, [dispatch]);
@@ -38,10 +39,12 @@ function App() {
       />
       <BrowserRouter>
         <Routes>
-          {/* Layout chính */}
+          {/* Layout chính: Tất cả các con bên trong đều có Header, Nav và Footer */}
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
-
+            
+            {/* ROUTE CHO TRANG LỌC SẢN PHẨM RIÊNG BIỆT */}
+            <Route path="/filter" element={<ProductFilter />} />
 
             <Route
               path="/profile"
@@ -70,26 +73,9 @@ function App() {
               }
             />
 
-            <Route
-              path="/about"
-              element={
-                <About />
-              }
-            />
-
-            <Route
-              path="/blogs"
-              element={
-                <Blogs />
-              }
-            />
-
-            <Route
-              path="/contact"
-              element={
-                <ContactUs />
-              }
-            />
+            <Route path="/about" element={<About />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/contact" element={<ContactUs />} />
 
             <Route
               path="/wishlist"
@@ -99,13 +85,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            
             <Route
               path="/product/:id"
               element={<ProductDetail />}
             />
           </Route>
 
-          {/* Auth layout */}
+          {/* Auth layout: Dành cho Login/Register (thường không có Header/Footer chung) */}
           <Route element={<AuthLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -117,4 +104,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

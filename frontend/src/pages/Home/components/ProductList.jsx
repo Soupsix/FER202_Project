@@ -5,11 +5,19 @@ import { useNavigate } from "react-router-dom";
 import { createCartItem } from "../../../services/cartService";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
-const ProductList = ({ filterCateId }) => {
+
+import { Pagination } from "antd"; // Import thêm Pagination từ Antd
+
+const ProductList = ({ filterCateId, searchTerm }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // 1. Thêm State cho phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 12; // 10 sản phẩm mỗi trang
+
   const navigate = useNavigate();
   const { user, isAuthenticated, loading: authLoading } = useSelector((state) => state.auth);
   useEffect(() => {
@@ -32,17 +40,34 @@ const ProductList = ({ filterCateId }) => {
     fetchData();
   }, []);
 
-  // 1. Tạo Map tra cứu (để hiện tên thay vì ID)
+  // Mỗi khi lọc Category hoặc Search thì reset về trang 1
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterCateId, searchTerm]);
+
   const categoryMap = {};
   categories.forEach((c) => (categoryMap[c.id] = c.name));
   const brandMap = {};
   brands.forEach((b) => (brandMap[b.id] = b.name));
 
-  // 2. Logic LỌC: Quan trọng nhất ở đây
+  // 2. LOGIC LỌC (Lấy hết danh sách thỏa mãn điều kiện trước)
   const filteredProducts = products.filter((item) => {
-    if (filterCateId === "0" || !filterCateId) return true; // Hiện tất cả
-    return String(item.categoryId) === String(filterCateId); // So sánh ID dạng chuỗi
+    const matchesCategory =
+      filterCateId === "0" || !filterCateId
+        ? true
+        : String(item.categoryId) === String(filterCateId);
+
+    const matchesSearch = searchTerm
+      ? item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      : true;
+
+    return matchesCategory && matchesSearch;
   });
+
+  // 3. LOGIC PHÂN TRANG: Cắt mảng filteredProducts để chỉ lấy 10 con
+  const indexOfLastItem = currentPage * pageSize;
+  const indexOfFirstItem = indexOfLastItem - pageSize;
+  const currentItems = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
 
   if (loading)
     return <div className="text-center mt-5">Đang tải sản phẩm...</div>;
@@ -50,8 +75,8 @@ const ProductList = ({ filterCateId }) => {
   return (
     <Container className="mb-5">
       <Row lg={4} md={3} sm={2} xs={1} className="g-4">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((item) => (
+        {currentItems.length > 0 ? (
+          currentItems.map((item) => (
             <Col key={item.id}>
               <Card
                 className="h-100 shadow-sm border-0"
@@ -74,7 +99,6 @@ const ProductList = ({ filterCateId }) => {
                   </div>
 
                   <Card.Title className="fs-6 fw-bold">{item.name}</Card.Title>
-
                   <Card.Text className="text-muted small" style={{ flexGrow: 1 }}>
                     {item.description}
                   </Card.Text>
@@ -101,7 +125,7 @@ const ProductList = ({ filterCateId }) => {
                         createCartItem(user.id, item.id, 1);
                       }}
                     >
-                      {item.quantity <= 0 ? "Sản phẩm không còn hàng" : "Chọn mua"}
+                      {item.quantity <= 0 ? "Hết hàng" : "Chọn mua"}
                     </Button>
                   </div>
                 </Card.Body>
@@ -109,11 +133,24 @@ const ProductList = ({ filterCateId }) => {
             </Col>
           ))
         ) : (
-          <Col xs={12} className="text-center">
-            <p className="text-muted">Không có sản phẩm nào.</p>
+          <Col xs={12} className="text-center mt-5">
+            <p className="text-muted">Không tìm thấy sản phẩm nào phù hợp.</p>
           </Col>
         )}
       </Row>
+
+      {/* 4. Hiển thị thanh phân trang */}
+      {filteredProducts.length > pageSize && (
+        <div className="d-flex justify-content-center mt-5">
+          <Pagination
+            current={currentPage}
+            total={filteredProducts.length}
+            pageSize={pageSize}
+            onChange={(page) => setCurrentPage(page)}
+            showSizeChanger={false}
+          />
+        </div>
+      )}
     </Container>
   );
 };

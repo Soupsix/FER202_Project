@@ -18,6 +18,7 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const { user, isAuthenticated, loading: authLoading } = useSelector((state) => state.auth);
 
+
   // 1. Thêm State để lưu ảnh đang hiển thị
   const [currentImage, setCurrentImage] = useState("");
 
@@ -144,6 +145,8 @@ const ProductDetail = () => {
             >
               {product.quantity <= 0 ? "Hết hàng" : "Thêm vào giỏ"}
             </Button>
+
+
             <Button variant="outline-danger" className="px-5 py-2 fw-bold" disabled={product.quantity <= 0}>
               Mua ngay
             </Button>

@@ -8,6 +8,9 @@ import { fetchCartProducts } from '../../redux/slices/cartSlice';
 import { fetchProducts } from '../../redux/slices/productSlice';
 import { selectCartWithProducts } from '../../redux/selectors/joinSelectors';
 import { updateCartItemQuantity, deleteCartItem } from '../../services/cartService';
+import { toast } from 'sonner';
+import axios from 'axios';
+import api from '../../services/api';
 const { Text } = Typography;
 
 const Cart = () => {
@@ -58,6 +61,51 @@ const Cart = () => {
       console.error('Error deleting cart item:', error);
     }
   };
+  const handleCheckoutAndDeleteCart = async () => {
+    //Địa chỉ cần confirm
+    if (!selectedAddress) {
+      toast.warning("Vui lòng xác nhận địa chỉ giao hàng!"); return;
+    }
+
+    try {
+      //1. Tạo Order cho đơn hàng
+      const orderData = {
+        userId: user.id,
+        items: products.map(p => ({
+          productId: p.productId,
+          name: p.name,
+          image: p.image,
+          price: p.price,
+          quantity: quantities[p.id] ?? p.quantity ?? 1
+        })),
+        totalPrice: totalPrice,
+        address: selectedAddress,
+        status: "Pending",
+        createdAt: new Date().toISOString()
+      }
+
+      //2. Lưu order vào /orders
+      api.post('/orders', orderData);
+
+      //3. Xóa các sản phẩm trong giỏ hàng (bằng promises cho nhanh)
+      const deleteCartItemPromiese = products.map(p => api.delete(`/cart/${p.id}`));
+      await Promise.all(deleteCartItemPromiese);
+
+      //4. Hiển thị thông báo
+      toast.success("Đặt hàng thành công!");
+
+      //5. Cập nhật lại state của giỏ hàng và chuyển hướng
+      dispatch(fetchCartProducts());
+      navigate("/orders");
+    } catch (error) {
+      toast.error("Có lỗi xảy ra khi thanh toán!");
+      return;
+    }
+  }
+
+  const handleCheckout = () => {
+
+  }
 
   const sharedProps = {
     mode: 'spinner',
@@ -155,7 +203,7 @@ const Cart = () => {
                       block
                       style={{ marginTop: 12 }}
                       disabled={addressMode === 'custom' && !customAddress.trim() || products.length === 0}
-                      onClick={handleAddressConfirm}
+                      onClick={handleCheckoutAndDeleteCart}
                     >
                       Thanh Toán
                     </Button>

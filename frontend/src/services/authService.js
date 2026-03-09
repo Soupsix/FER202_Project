@@ -23,7 +23,9 @@ const clearUserFromStorage = () => {
 const getUserFromStorage = () => {
     const user = localStorage.getItem('user');
     const token = localStorage.getItem('token');
+     console.log("GET USER FROM STORAGE:", user, token);
     return user ? { user: JSON.parse(user), token } : null;
+
 };
 
 // ============================================

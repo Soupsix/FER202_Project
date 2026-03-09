@@ -9,7 +9,8 @@ const initialState = {
     token: null,             // JWT token string (Hiện tại đang là fake sau cho be)
     isAuthenticated: false,  // true nếu đã login
     loading: false,          // true khi đang call API
-    error: null,             // Error message string
+    error: null,            // Error message string
+    authChecked: false,           
 };
 
 // ============================================
@@ -103,6 +104,9 @@ const authSlice = createSlice({
                 state.token = userData.token;
                 state.isAuthenticated = true;
             }
+
+            state.authChecked = true;
+            
         },
 
         /**

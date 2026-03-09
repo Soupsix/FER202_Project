@@ -21,7 +21,14 @@ import ProductDetail from './pages/Products/ProductDetail';
 
 // IMPORT TRANG MỚI Ở ĐÂY CU NHÉ
 import ProductFilter from './pages/Home/components/ProductFilter'; 
+import AdminDashboard from './pages/Admin/AdminDashboard';
+import ProductManagement from './pages/Admin/components/ProductManagement';
+import AccountManagement from './pages/Admin/components/AccountManagement';
+import BannerManagement from './pages/Admin/components/BannerManagement';
+import CatAndBrandManagement from './pages/Admin/components/CatAndBrandManagement';
+import AdminRoute from './routes/AdminRoute';
 
+ 
 function App() {
   const dispatch = useDispatch();
 
@@ -43,6 +50,33 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/" element={<HomePage />} />
             
+            {/* Bảo vệ Route dành cho admin, chỉ admin truy cập */}
+            <Route path="/admin" element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            } />
+            <Route path="/admin/products" element={
+              <AdminRoute>
+                <ProductManagement />
+              </AdminRoute>
+            } />
+            <Route path='/admin/accounts' element={
+              <AdminRoute>
+                <AccountManagement />
+              </AdminRoute>
+            } />
+            <Route path='/admin/banners' element={
+              <AdminRoute>
+                <BannerManagement />
+              </AdminRoute>
+            } />
+            <Route path='/admin/catAndBrandManagement' element={
+              <AdminRoute>
+                <CatAndBrandManagement />
+              </AdminRoute>
+            } />
+
             {/* ROUTE CHO TRANG LỌC SẢN PHẨM RIÊNG BIỆT */}
             <Route path="/filter" element={<ProductFilter />} />
 

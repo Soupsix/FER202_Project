@@ -140,6 +140,11 @@ const ProductDetail = () => {
                   navigate('/login');
                   return;
                 }
+                if(user.role !== 'customer') {
+                  toast.error("Chỉ khách hàng mới có thể thêm sản phẩm vào giỏ hàng!")
+                  return;
+                }
+
                 createCartItem(user.id, product.id, quantity);
               }}
             >
@@ -147,7 +152,25 @@ const ProductDetail = () => {
             </Button>
 
 
-            <Button variant="outline-danger" className="px-5 py-2 fw-bold" disabled={product.quantity <= 0}>
+            <Button variant="outline-danger" 
+            className="px-5 py-2 fw-bold" 
+            disabled={product.quantity <= 0}
+            onClick={(e) => {
+              // Thêm logic chọn mua của bạn ở đây
+                if (!isAuthenticated) {
+                  toast.warning("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!")
+                  navigate('/login');
+                  return;
+                }
+                if(user.role !== 'customer') {
+                  toast.error("Chỉ khách hàng mới có thể thêm sản phẩm vào giỏ hàng!")
+                  return;
+                }
+
+                createCartItem(user.id, product.id, quantity);
+                navigate('/cart');
+            }}
+            >
               Mua ngay
             </Button>
           </div>

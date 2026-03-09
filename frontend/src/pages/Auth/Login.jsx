@@ -11,14 +11,18 @@ const Login = () => {
   const dispatch = useDispatch();
 
   // Lấy state từ Redux
-  const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+  const {user, loading, error, isAuthenticated } = useSelector((state) => state.auth);
 
   // Auto redirect nếu đã login
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/');
+    if (isAuthenticated && user) {
+      if(user.role.toLowerCase() === "admin"){
+        navigate("/admin");
+      } else {
+        navigate("/", { replace: true });
+      }
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, user, navigate]);
 
   // Clear error khi component unmount
   useEffect(() => {

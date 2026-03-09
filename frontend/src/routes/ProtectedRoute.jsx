@@ -23,6 +23,9 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
+  if(user?.role?.toLowerCase() === "admin"){
+    return <Navigate to="/admin" replace />;
+  }
   // Đã login → render children
   return children;
 };

@@ -122,6 +122,10 @@ const ProductList = ({ filterCateId, searchTerm }) => {
                           navigate('/login');
                           return;
                         }
+                        if(user.role !== 'customer') {
+                          toast.error("Chỉ khách hàng mới có thể thêm sản phẩm vào giỏ hàng!")
+                          return;
+                        }
                         createCartItem(user.id, item.id, 1);
                       }}
                     >

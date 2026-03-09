@@ -52,7 +52,7 @@ const adminModules = [
   },
   {
     key: "settings",
-    label: "Thiết lập",
+    label: "Thiết lập tài khoản",
     icon: <Settings size={18} />,
     component: <div className="admin-settings"><h2>Thiết lập</h2></div>
   }

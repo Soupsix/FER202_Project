@@ -7,7 +7,8 @@ import {
     UserOutlined,
     LogoutOutlined,
     ProfileOutlined,
-    ShoppingOutlined
+    ShoppingOutlined,
+    SettingOutlined
 } from "@ant-design/icons";
 
 import { useNavigate } from "react-router-dom";
@@ -18,7 +19,7 @@ import { useSelector } from 'react-redux';
 
 const { Search } = Input;
 
-const Header = ({searchTerm ,setSearchTerm}) => {
+const Header = ({ searchTerm, setSearchTerm }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isAuthenticated } = useSelector((state) => state.auth);
@@ -105,14 +106,21 @@ const Header = ({searchTerm ,setSearchTerm}) => {
                         placeholder="Tìm kiếm sản phẩm..."
                         allowClear
                         size="large"
-                         value={searchTerm}
-                       onChange={(e) => setSearchTerm(e.target.value)}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </Col>
 
                 {/* ICONS */}
                 <Col xs={24} sm={6} md={6} lg={6} style={{ textAlign: "right" }}>
                     <Space size="large">
+
+                        {user?.role === 'admin' && (
+                            <Badge count={0} size="small">
+                                <SettingOutlined style={{ fontSize: 20, cursor: "pointer" }} onClick={() => navigate('/admin')} />
+                            </Badge>
+                        )}
+
                         <Badge count={5} size="small">
                             <HeartOutlined style={{ fontSize: 20, cursor: "pointer" }} onClick={() => navigate('/wishlist')} />
                         </Badge>

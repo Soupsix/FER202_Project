@@ -5,21 +5,42 @@ import { useNavigate } from "react-router-dom";
 import { createCartItem } from "../../../services/cartService";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
-
+import { selectProductsWithBrandsAndCategories } from "../../../redux/selectors/joinSelectors";
 import { Pagination } from "antd"; // Import thêm Pagination từ Antd
+import { fetchProducts } from "../../../redux/slices/productSlice";
+import { fetchBrands } from "../../../redux/slices/brandSlice";
+import { fetchCategories } from "../../../redux/slices/categorySlice";
+import { useDispatch } from "react-redux";
 
 const ProductList = ({ filterCateId, searchTerm }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
-
   // 1. Thêm State cho phân trang
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 12; // 10 sản phẩm mỗi trang
 
   const navigate = useNavigate();
   const { user, isAuthenticated, loading: authLoading } = useSelector((state) => state.auth);
+
+  //Redux load data product, brand, category vào store để dùng chung
+  const productsWithInfo = useSelector(selectProductsWithBrandsAndCategories);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+    dispatch(fetchBrands());
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  const getProductStatus = (productId) => {
+    const product = productsWithInfo.find(p => String(p.id) === String(productId));
+    return product ? product.status : true; // Mặc định là true nếu không tìm thấy
+  }
+  console.log("Product Redux", getProductStatus(1));
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -111,9 +132,13 @@ const ProductList = ({ filterCateId, searchTerm }) => {
                       {item.price?.toLocaleString("vi-VN")} đ
                     </h5>
                     <Button
-                      variant={item.quantity <= 0 ? "secondary" : "primary"}
+                      variant={
+                        item.quantity <= 0 || !getProductStatus(item.id)
+                          ? "secondary"
+                          : "primary"
+                      }
                       className="w-100 mt-2 shadow-none"
-                      disabled={item.quantity <= 0} // Chặn bấm nếu hết hàng
+                      disabled={item.quantity <= 0 || !getProductStatus(item.id)} // Chặn bấm nếu hết hàng
                       onClick={(e) => {
                         e.stopPropagation(); // Ngăn không cho nhảy vào trang chi tiết khi bấm nút
                         // Thêm logic chọn mua của bạn ở đây
@@ -122,14 +147,20 @@ const ProductList = ({ filterCateId, searchTerm }) => {
                           navigate('/login');
                           return;
                         }
-                        if(user.role !== 'customer') {
+                        if (user.role !== 'customer') {
                           toast.error("Chỉ khách hàng mới có thể thêm sản phẩm vào giỏ hàng!")
                           return;
                         }
                         createCartItem(user.id, item.id, 1);
                       }}
                     >
-                      {item.quantity <= 0 ? "Hết hàng" : "Chọn mua"}
+                      {
+                        item.quantity <= 0
+                          ? "Hết hàng"
+                          : !getProductStatus(item.id)
+                            ? "Ngừng bán"
+                            : "Chọn mua"
+                      }
                     </Button>
                   </div>
                 </Card.Body>

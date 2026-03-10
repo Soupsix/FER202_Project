@@ -3,9 +3,13 @@ import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { createCartItem } from "../../services/cartService";
+import { fetchProducts } from '../../redux/slices/productSlice';
+import { fetchBrands } from '../../redux/slices/brandSlice';
+import { fetchCategories } from '../../redux/slices/categorySlice';
+import { selectProductsWithBrandsAndCategories } from '../../redux/selectors/joinSelectors';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -17,10 +21,27 @@ const ProductDetail = () => {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user, isAuthenticated, loading: authLoading } = useSelector((state) => state.auth);
+  
 
-
+  
   // 1. Thêm State để lưu ảnh đang hiển thị
   const [currentImage, setCurrentImage] = useState("");
+
+  //Redux State Loading của Product
+  const productsWithInfo = useSelector(selectProductsWithBrandsAndCategories);
+  const dispatch = useDispatch();
+  
+    useEffect(() => {
+        dispatch(fetchProducts());
+        dispatch(fetchBrands());
+        dispatch(fetchCategories());
+      }, [dispatch]);
+  
+    const getProductStatus = (productId) => {
+      const product = productsWithInfo.find(p => String(p.id) === String(productId));
+      return product ? product.status : true; // Mặc định là true nếu không tìm thấy
+    }
+    console.log("Product Redux", getProductStatus(1));
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -131,7 +152,7 @@ const ProductDetail = () => {
           <div className="pt-3">
             <Button variant="dark"
               className="px-5 py-2 me-2 fw-bold"
-              disabled={product.quantity <= 0}
+              disabled={product.quantity <= 0 || !getProductStatus(product.id)} // Chặn bấm nếu hết hàng hoặc ngừng bán
               onClick={(e) => {
 
                 // Thêm logic chọn mua của bạn ở đây
@@ -154,7 +175,7 @@ const ProductDetail = () => {
 
             <Button variant="outline-danger" 
             className="px-5 py-2 fw-bold" 
-            disabled={product.quantity <= 0}
+            disabled={product.quantity <= 0 || !getProductStatus(product.id)}
             onClick={(e) => {
               // Thêm logic chọn mua của bạn ở đây
                 if (!isAuthenticated) {

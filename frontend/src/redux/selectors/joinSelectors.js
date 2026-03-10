@@ -20,3 +20,25 @@ export const selectCartWithProducts = createSelector(
         });
     }
 );
+
+// Join products với brands và categories để lấy tên brand và category
+export const selectProductsWithBrandsAndCategories = createSelector(
+    (state) => state.product.products,
+    (state) => state.brand.brands,
+    (state) => state.category.categories,
+    (products, brands, categories) => {
+        console.log(products, brands, categories);
+        if (!products) return [];
+
+        return products.map((product) => {
+            const brand = brands?.find((b) => b.id === product.brandId);
+            const category = categories?.find((c) => c.id === product.categoryId);
+            return {
+                ...product,
+                brandName: brand?.name || 'N/A',
+                categoryName: category?.name || 'N/A',
+            };
+        });
+    }
+);
+

@@ -1,0 +1,163 @@
+/* Reset & Căn bản */
+.contact-body {
+    background-color: #fcfcfc;
+    padding: 60px 20px;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-container {
+    max-width: 1100px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr; /* Chia 2 cột: Trái rộng hơn phải */
+    gap: 50px;
+    background: #fff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* CỘT BÊN TRÁI (Form & Map) */
+.contact-left h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.contact-info {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.contact-info p {
+    margin: 8px 0;
+    font-size: 15px;
+    color: #555;
+}
+
+.contact-left h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* FORM THIẾT KẾ LẠI */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.contact-form input, 
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: #f9f9f9;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Quan trọng để không bị tràn */
+}
+
+.contact-form input:focus, 
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #8b5e3c; /* Màu nâu len */
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(139, 94, 60, 0.1);
+}
+
+.contact-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.contact-form button {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.contact-form button:hover {
+    background: #8b5e3c;
+}
+
+/* MAP */
+.contact-map {
+    margin-top: 30px;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+/* CỘT BÊN PHẢI (Hệ thống cửa hàng) */
+.contact-right h2 {
+    font-size: 20px;
+    margin-bottom: 25px;
+    border-left: 4px solid #8b5e3c;
+    padding-left: 15px;
+}
+
+.store {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.store-item {
+    padding: 15px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.store-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-color: #8b5e3c;
+}
+
+.store-item b {
+    display: block;
+    font-size: 16px;
+    color: #8b5e3c;
+    margin-bottom: 5px;
+}
+
+.store-item p {
+    font-size: 14px;
+    color: #777;
+    margin: 0;
+}
+
+/* RESPONSIVE (Cho điện thoại) */
+@media (max-width: 850px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+        padding: 25px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

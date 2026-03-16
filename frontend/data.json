@@ -407,14 +407,32 @@
   "order_items": [],
   "wishlist": [
     {
-      "id": 1,
       "userId": 1,
-      "productId": 1
+      "productId": 4,
+      "id": 2
+    },
+    {
+      "userId": 1,
+      "productId": 1,
+      "id": 3
+    }
+  ],
+  "blogs": [
+    {
+      "id": 1,
+      "title": "Nghệ thuật đan len cho người mới",
+      "author": "Admin",
+      "date": "2026-03-14",
+      "image": "https://images.unsplash.com/photo-1605001011156-cbf0b0f67a51?q-80&w=800",
+      "summary": "Hướng dẫn chi tiết cách chọn len và kim móc phù hợp."
     },
     {
       "id": 2,
-      "userId": 1,
-      "productId": 2
+      "title": "Móc túi len handmade cực xinh",
+      "author": "WoolGood",
+      "date": "2026-03-15",
+      "image": "https://images.unsplash.com/photo-1591115403064-077983636544?q-80&w-800",
+      "summary": "Phối đô sành điệu với những mẫu túi len tự làm tại nhà."
     }
   ]
 }

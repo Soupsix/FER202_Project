@@ -10,38 +10,42 @@ import { fetchProducts } from '../../redux/slices/productSlice';
 import { fetchBrands } from '../../redux/slices/brandSlice';
 import { fetchCategories } from '../../redux/slices/categorySlice';
 import { selectProductsWithBrandsAndCategories } from '../../redux/selectors/joinSelectors';
+import { fetchWishlist } from '../../redux/slices/wishlistSlice';
+import { addToWishlist, removeFromWishlist } from '../../services/wishlistService';
+
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user, isAuthenticated, loading: authLoading } = useSelector((state) => state.auth);
-  
 
-  
+
+
   // 1. Thêm State để lưu ảnh đang hiển thị
   const [currentImage, setCurrentImage] = useState("");
 
   //Redux State Loading của Product
   const productsWithInfo = useSelector(selectProductsWithBrandsAndCategories);
+  const { items: wishlistItems } = useSelector((state) => state.wishlist);
   const dispatch = useDispatch();
-  
-    useEffect(() => {
-        dispatch(fetchProducts());
-        dispatch(fetchBrands());
-        dispatch(fetchCategories());
-      }, [dispatch]);
-  
-    const getProductStatus = (productId) => {
-      const product = productsWithInfo.find(p => String(p.id) === String(productId));
-      return product ? product.status : true; // Mặc định là true nếu không tìm thấy
-    }
-    console.log("Product Redux", getProductStatus(1));
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+    dispatch(fetchBrands());
+    dispatch(fetchCategories());
+    dispatch(fetchWishlist());
+  }, [dispatch]);
+
+  const getProductStatus = (productId) => {
+    const product = productsWithInfo.find(p => String(p.id) === String(productId));
+    return product ? product.status : true; // Mặc định là true nếu không tìm thấy
+  }
+  console.log("Product Redux", getProductStatus(1));
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -79,6 +83,42 @@ const ProductDetail = () => {
     else toast.warning(`Chỉ còn ${product.quantity} sản phẩm trong kho!`);
   };
   const handleDecrease = () => { if (quantity > 1) setQuantity(prev => prev - 1); };
+
+  const wishlistItem = wishlistItems?.find(item => String(item.productId) === String(product?.id) && String(item.userId) === String(user?.id));
+  const isProductWishlisted = !!wishlistItem; //Giống true false nhưng cho chắc kiểu với object và undefined 1! là false 2! là true
+
+  const handleToggleWishlist = async () => {
+    if (!isAuthenticated) {
+      toast.warning("Vui lòng đăng nhập để thêm sản phẩm vào danh sách yêu thích!");
+      navigate('/login');
+      return;
+    }
+    if (user.role !== 'customer') {
+      toast.error("Chỉ khách hàng mới có thể thêm sản phẩm vào danh sách yêu thích!");
+      return;
+    }
+
+    if (isProductWishlisted) {
+      if (wishlistItem) {
+        try {
+          await removeFromWishlist(wishlistItem.id);
+          toast.warning("Đã xoá khỏi danh sách yêu thích!");
+          dispatch(fetchWishlist());
+        } catch (error) {
+          console.error("Lỗi khi xoá khỏi wishlist", error);
+        }
+      }
+      return;
+    }
+
+    try {
+      await addToWishlist(user.id, product.id);
+      toast.success("Đã thêm sản phẩm vào danh sách yêu thích!");
+      dispatch(fetchWishlist());
+    } catch (error) {
+      console.error("Lỗi khi thêm vào wishlist", error);
+    }
+  };
 
   if (loading) return <div className="text-center mt-5">Đang tải sản phẩm...</div>;
   if (!product) return <div className="text-center mt-5">Không tìm thấy sản phẩm!</div>;
@@ -144,8 +184,8 @@ const ProductDetail = () => {
               <button className="btn btn-outline-secondary shadow-none" onClick={handleIncrease}>+</button>
             </div>
 
-            <div onClick={() => setIsWishlisted(!isWishlisted)} style={{ cursor: 'pointer', fontSize: '28px' }}>
-              {isWishlisted ? <AiFillHeart color="red" /> : <AiOutlineHeart color="gray" />}
+            <div onClick={handleToggleWishlist} style={{ cursor: 'pointer', fontSize: '28px' }}>
+              {isProductWishlisted ? <AiFillHeart color="red" /> : <AiOutlineHeart color="gray" />}
             </div>
           </div>
 
@@ -161,7 +201,7 @@ const ProductDetail = () => {
                   navigate('/login');
                   return;
                 }
-                if(user.role !== 'customer') {
+                if (user.role !== 'customer') {
                   toast.error("Chỉ khách hàng mới có thể thêm sản phẩm vào giỏ hàng!")
                   return;
                 }
@@ -173,24 +213,24 @@ const ProductDetail = () => {
             </Button>
 
 
-            <Button variant="outline-danger" 
-            className="px-5 py-2 fw-bold" 
-            disabled={product.quantity <= 0 || !getProductStatus(product.id)}
-            onClick={(e) => {
-              // Thêm logic chọn mua của bạn ở đây
+            <Button variant="outline-danger"
+              className="px-5 py-2 fw-bold"
+              disabled={product.quantity <= 0 || !getProductStatus(product.id)}
+              onClick={(e) => {
+                // Thêm logic chọn mua của bạn ở đây
                 if (!isAuthenticated) {
                   toast.warning("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!")
                   navigate('/login');
                   return;
                 }
-                if(user.role !== 'customer') {
+                if (user.role !== 'customer') {
                   toast.error("Chỉ khách hàng mới có thể thêm sản phẩm vào giỏ hàng!")
                   return;
                 }
 
                 createCartItem(user.id, product.id, quantity);
                 navigate('/cart');
-            }}
+              }}
             >
               Mua ngay
             </Button>

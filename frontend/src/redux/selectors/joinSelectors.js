@@ -42,3 +42,24 @@ export const selectProductsWithBrandsAndCategories = createSelector(
     }
 );
 
+// Join wishlist items với products để lấy thông tin đầy đủ
+export const selectWishlistWithProducts = createSelector(
+    (state) => state.wishlist.items,
+    (state) => state.product.products,
+    (wishlistItems, allProducts) => {
+        if (!wishlistItems || !allProducts) return [];
+
+        return wishlistItems.map((item) => {
+            const product = allProducts.find((p) => String(p.id) === String(item.productId));
+            return {
+                ...item,
+                name: product?.name,
+                image: product?.image,
+                price: product?.price,
+                description: product?.description,
+                stock: product?.quantity,
+            };
+        });
+    }
+);
+
